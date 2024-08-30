@@ -1,4 +1,5 @@
 import { OpenAPIObject } from 'openapi3-ts/oas30';
+import { InputValidationOptions } from '../types';
 import {
   ibmOpenapiValidatorErrors,
   ibmOpenapiValidatorWarnings,
@@ -12,7 +13,10 @@ const { Spectral } = require('@stoplight/spectral-core');
  * More information: https://github.com/IBM/openapi-validator/#configuration
  * @param specs openAPI spec
  */
-export const ibmOpenapiValidator = async (specs: OpenAPIObject) => {
+export const ibmOpenapiValidator = async (
+  specs: OpenAPIObject,
+  validation: InputValidationOptions,
+) => {
   const spectral = new Spectral();
   spectral.setRuleset(ibmOpenapiRuleset);
   const results = await spectral.run(specs);
@@ -35,6 +39,12 @@ export const ibmOpenapiValidator = async (specs: OpenAPIObject) => {
 
   if (warnings.length) {
     ibmOpenapiValidatorWarnings(warnings);
+    if (
+      typeof validation === 'object' &&
+      warnings.length > validation.warningLimit
+    ) {
+      process.exit(1);
+    }
   }
 
   if (errors.length) {

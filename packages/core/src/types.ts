@@ -151,7 +151,7 @@ export type NormalizedOperationOptions = {
 
 export type NormalizedInputOptions = {
   target: string | Record<string, unknown> | OpenAPIObject;
-  validation: boolean;
+  validation: InputValidationOptions;
   override: OverrideInput;
   converterOptions: swagger2openapi.Options;
   parserOptions: SwaggerParserOptions;
@@ -197,9 +197,15 @@ export type InputFiltersOption = {
   schemas?: (string | RegExp)[];
 };
 
+export type InputValidationOptions =
+  | {
+      warningLimit: number;
+    }
+  | boolean;
+
 export type InputOptions = {
   target: string | Record<string, unknown> | OpenAPIObject;
-  validation?: boolean;
+  validation?: InputValidationOptions;
   override?: OverrideInput;
   converterOptions?: swagger2openapi.Options;
   parserOptions?: SwaggerParserOptions;

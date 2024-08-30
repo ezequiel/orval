@@ -21,17 +21,27 @@ module.exports = {
 
 ### validation
 
-Type: `Boolean`.
+Type: `Boolean` or `Object`
 
 Default Value: `false`.
 
-To enforce the best quality as possible of specification, we have integrated the amazing <a href="https://github.com/IBM/openapi-validator" target="_blank">OpenAPI linter from IBM</a>. We strongly encourage you to setup your custom rules with a `.validaterc` file, you can find all useful information about this configuration <a href="https://github.com/IBM/openapi-validator/#configuration" target="_blank">here</a>.
-
+To enforce the best quality as possible of specification, we have integrated the amazing <a href="https://github.com/IBM/openapi-validator" target="_blank">OpenAPI linter from IBM</a>.
 ```js
 module.exports = {
   petstore: {
     input: {
       validation: true,
+    },
+  },
+};
+
+module.exports = {
+  petstore: {
+    input: {
+      validation: {
+        // Exit when warnings > 1
+        warningLimit: 1,
+      },
     },
   },
 };
